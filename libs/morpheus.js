@@ -1,1 +1,382 @@
-!function(a,b){if(typeof define=="function"){define(b)}else{if(typeof module!="undefined"){module.exports=b()}else{this[a]=b()}}}("morpheus",function(){var d=this,H=document,j=window,m=H.documentElement,t=1000,l=/^rgb\(|#/,u=/^([+\-])=([\d\.]+)/,k=/^(?:[\+\-]=)?\d+(?:\.\d+)?(%|in|cm|mm|em|ex|pt|pc|px)$/,w=/rotate\(((?:[+\-]=)?([\-\d\.]+))deg\)/,G=/scale\(((?:[+\-]=)?([\d\.]+))\)/,e=/skew\(((?:[+\-]=)?([\-\d\.]+))deg, ?((?:[+\-]=)?([\-\d\.]+))deg\)/,o=/translate\(((?:[+\-]=)?([\-\d\.]+))px, ?((?:[+\-]=)?([\-\d\.]+))px\)/,E={lineHeight:1,zoom:1,zIndex:1,opacity:1,transform:1},p=function(){var K=H.createElement("a").style,J=["webkitTransform","MozTransform","OTransform","msTransform","Transform"],I;for(I=0;I<J.length;I++){if(J[I] in K){return J[I]}}}(),r=function(){return typeof H.createElement("a").style.opacity!=="undefined"}(),i=H.defaultView&&H.defaultView.getComputedStyle?function(I,L){L=L=="transform"?p:L;var K=null,J=H.defaultView.getComputedStyle(I,"");J&&(K=J[D(L)]);return I.style[L]||K}:m.currentStyle?function(I,K){K=D(K);if(K=="opacity"){var N=100;try{N=I.filters["DXImageTransform.Microsoft.Alpha"].opacity}catch(M){try{N=I.filters("alpha").opacity}catch(L){}}return N/100}var J=I.currentStyle?I.currentStyle[K]:null;return I.style[K]||J}:function(I,J){return I.style[D(J)]},q=function(){return j.requestAnimationFrame||j.webkitRequestAnimationFrame||j.mozRequestAnimationFrame||j.oRequestAnimationFrame||j.msRequestAnimationFrame||function(I){j.setTimeout(function(){I(+new Date())},11)}}(),h=[];function c(K,J,I){if(Array.prototype.indexOf){return K.indexOf(J)}for(I=0;I<K.length;++I){if(K[I]===J){return I}}}function F(J){var I,K=h.length;for(I=K;I--;){h[I](J)}h.length&&q(F)}function f(I){if(h.push(I)===1){q(F)}}function C(L){var J,K,I=c(h,L);if(I>=0){K=h.slice(I+1);h.length=I;h=h.concat(K)}}function A(K,L){var J={},I;if(I=K.match(w)){J.rotate=x(I[1],L?L.rotate:null)}if(I=K.match(G)){J.scale=x(I[1],L?L.scale:null)}if(I=K.match(e)){J.skewx=x(I[1],L?L.skewx:null);J.skewy=x(I[3],L?L.skewy:null)}if(I=K.match(o)){J.translatex=x(I[1],L?L.translatex:null);J.translatey=x(I[3],L?L.translatey:null)}return J}function z(I){var J="";if("rotate" in I){J+="rotate("+I.rotate+"deg) "}if("scale" in I){J+="scale("+I.scale+") "}if("translatex" in I){J+="translate("+I.translatex+"px,"+I.translatey+"px) "}if("skewx" in I){J+="skew("+I.skewx+"deg,"+I.skewy+"deg)"}return J}function a(K,J,I){return"#"+(1<<24|K<<16|J<<8|I).toString(16).slice(1)}function v(J){var I=/rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(J);return(I?a(I[1],I[2],I[3]):J).replace(/#(\w)(\w)(\w)$/,"#$1$1$2$2$3$3")}function D(I){return I.replace(/-(.)/g,function(J,K){return K.toUpperCase()})}function B(I){return typeof I=="function"}function g(N,Q,O,M,S,T){M=B(M)?M:s.easings[M]||function(V){return Math.sin(V*Math.PI/2)};var J=N||t,U=this,R=T-S,I=+new Date(),P=0,L=0;f(K);function K(V){var W=V-I;if(W>J||P){T=isFinite(T)?T:1;P?L&&Q(T):Q(T);C(K);return O&&O.apply(U)}isFinite(T)?Q((R*M(W/J))+S):Q(M(W/J))}return{stop:function(V){P=1;L=V;if(!V){O=null}}}}function n(K,N){var M=K.length,L=[],J,I;for(J=0;J<M;++J){L[J]=[K[J][0],K[J][1]]}for(I=1;I<M;++I){for(J=0;J<M-I;++J){L[J][0]=(1-N)*L[J][0]+N*L[parseInt(J+1,10)][0];L[J][1]=(1-N)*L[J][1]+N*L[parseInt(J+1,10)][1]}}return[L[0][0],L[0][1]]}function y(P,O,J){var K=[],I,L,N,M;for(I=0;I<6;I++){N=Math.min(15,parseInt(O.charAt(I),16));M=Math.min(15,parseInt(J.charAt(I),16));L=Math.floor((M-N)*P+N);L=L>15?15:L<0?0:L;K[I]=L.toString(16)}return"#"+K.join("")}function b(P,L,O,I,K,N,J){if(K=="transform"){J={};for(var M in O[N][K]){J[M]=(M in I[N][K])?Math.round(((I[N][K][M]-O[N][K][M])*P+O[N][K][M])*t)/t:O[N][K][M]}return J}else{if(typeof O[N][K]=="string"){return y(P,O[N][K],I[N][K])}else{J=Math.round(((I[N][K]-O[N][K])*P+O[N][K])*t)/t;if(!(K in E)){J+=L[N][K]||"px"}return J}}}function x(L,M,I,K,J){return(I=u.exec(L))?(J=parseFloat(I[2]))&&(M+(I[1]=="+"?1:-1)*J):parseFloat(L)}function s(Q,J){var K=Q?(K=isFinite(Q.length)?Q:[Q]):[],Z,S=J.complete,I=J.duration,W=J.easing,Y=J.bezier,ab=[],L=[],V=[],ac=[],U,O;delete J.complete;delete J.duration;delete J.easing;delete J.bezier;if(Y){U=J.left;O=J.top;delete J.right;delete J.bottom;delete J.left;delete J.top}for(Z=K.length;Z--;){ab[Z]={};L[Z]={};V[Z]={};if(Y){var M=i(K[Z],"left"),T=i(K[Z],"top"),N=[x(B(U)?U(K[Z]):U||0,parseFloat(M)),x(B(O)?O(K[Z]):O||0,parseFloat(T))];ac[Z]=B(Y)?Y(K[Z],N):Y;ac[Z].push(N);ac[Z].unshift([parseInt(M,10),parseInt(T,10)])}for(var X in J){var P=i(K[Z],X),R,aa=B(J[X])?J[X](K[Z]):J[X];if(typeof aa=="string"&&l.test(aa)&&!l.test(P)){delete J[X];continue}ab[Z][X]=X=="transform"?A(P):typeof aa=="string"&&l.test(aa)?v(P).slice(1):parseFloat(P);L[Z][X]=X=="transform"?A(aa,ab[Z][X]):typeof aa=="string"&&aa.charAt(0)=="#"?v(aa).slice(1):x(aa,parseFloat(P));(typeof aa=="string")&&(R=aa.match(k))&&(V[Z][X]=R[1])}}return g.apply(K,[I,function(ag,ae,af){for(Z=K.length;Z--;){if(Y){af=n(ac[Z],ag);K[Z].style.left=af[0]+"px";K[Z].style.top=af[1]+"px"}for(var ad in J){ae=b(ag,V,ab,L,ad,Z);ad=="transform"?K[Z].style[p]=z(ae):ad=="opacity"&&!r?(K[Z].style.filter="alpha(opacity="+(ae*100)+")"):(K[Z].style[D(ad)]=ae)}}},S,W])}s.tween=g;s.getStyle=i;s.bezier=n;s.transform=p;s.parseTransform=A;s.formatTransform=z;s.easings={};return s});!function(b){var a={easeInQuad:function(c){return Math.pow(c,2)},easeOutQuad:function(c){return -(Math.pow((c-1),2)-1)},easeInOutQuad:function(c){if((c/=0.5)<1){return 0.5*Math.pow(c,2)}return -0.5*((c-=2)*c-2)},easeInCubic:function(c){return Math.pow(c,3)},easeOutCubic:function(c){return(Math.pow((c-1),3)+1)},easeInOutCubic:function(c){if((c/=0.5)<1){return 0.5*Math.pow(c,3)}return 0.5*(Math.pow((c-2),3)+2)},easeInQuart:function(c){return Math.pow(c,4)},easeOutQuart:function(c){return -(Math.pow((c-1),4)-1)},easeInOutQuart:function(c){if((c/=0.5)<1){return 0.5*Math.pow(c,4)}return -0.5*((c-=2)*Math.pow(c,3)-2)},easeInQuint:function(c){return Math.pow(c,5)},easeOutQuint:function(c){return(Math.pow((c-1),5)+1)},easeInOutQuint:function(c){if((c/=0.5)<1){return 0.5*Math.pow(c,5)}return 0.5*(Math.pow((c-2),5)+2)},easeInSine:function(c){return -Math.cos(c*(Math.PI/2))+1},easeOutSine:function(c){return Math.sin(c*(Math.PI/2))},easeInOutSine:function(c){return(-0.5*(Math.cos(Math.PI*c)-1))},easeInExpo:function(c){return(c===0)?0:Math.pow(2,10*(c-1))},easeOutExpo:function(c){return(c===1)?1:-Math.pow(2,-10*c)+1},easeInOutExpo:function(c){if(c===0){return 0}if(c===1){return 1}if((c/=0.5)<1){return 0.5*Math.pow(2,10*(c-1))}return 0.5*(-Math.pow(2,-10*--c)+2)},easeInCirc:function(c){return -(Math.sqrt(1-(c*c))-1)},easeOutCirc:function(c){return Math.sqrt(1-Math.pow((c-1),2))},easeInOutCirc:function(c){if((c/=0.5)<1){return -0.5*(Math.sqrt(1-c*c)-1)}return 0.5*(Math.sqrt(1-(c-=2)*c)+1)},easeOutBounce:function(c){if((c)<(1/2.75)){return(7.5625*c*c)}else{if(c<(2/2.75)){return(7.5625*(c-=(1.5/2.75))*c+0.75)}else{if(c<(2.5/2.75)){return(7.5625*(c-=(2.25/2.75))*c+0.9375)}else{return(7.5625*(c-=(2.625/2.75))*c+0.984375)}}}},easeInBack:function(d){var c=1.70158;return(d)*d*((c+1)*d-c)},easeOutBack:function(d){var c=1.70158;return(d=d-1)*d*((c+1)*d+c)+1},easeInOutBack:function(d){var c=1.70158;if((d/=0.5)<1){return 0.5*(d*d*(((c*=(1.525))+1)*d-c))}return 0.5*((d-=2)*d*(((c*=(1.525))+1)*d+c)+2)},elastic:function(c){return -1*Math.pow(4,-8*c)*Math.sin((c*6-1)*(2*Math.PI)/2)+1},swingFromTo:function(d){var c=1.70158;return((d/=0.5)<1)?0.5*(d*d*(((c*=(1.525))+1)*d-c)):0.5*((d-=2)*d*(((c*=(1.525))+1)*d+c)+2)},swingFrom:function(d){var c=1.70158;return d*d*((c+1)*d-c)},swingTo:function(d){var c=1.70158;return(d-=1)*d*((c+1)*d+c)+1},bounce:function(c){if(c<(1/2.75)){return(7.5625*c*c)}else{if(c<(2/2.75)){return(7.5625*(c-=(1.5/2.75))*c+0.75)}else{if(c<(2.5/2.75)){return(7.5625*(c-=(2.25/2.75))*c+0.9375)}else{return(7.5625*(c-=(2.625/2.75))*c+0.984375)}}}},bouncePast:function(c){if(c<(1/2.75)){return(7.5625*c*c)}else{if(c<(2/2.75)){return 2-(7.5625*(c-=(1.5/2.75))*c+0.75)}else{if(c<(2.5/2.75)){return 2-(7.5625*(c-=(2.25/2.75))*c+0.9375)}else{return 2-(7.5625*(c-=(2.625/2.75))*c+0.984375)}}}},easeFromTo:function(c){if((c/=0.5)<1){return 0.5*Math.pow(c,4)}return -0.5*((c-=2)*Math.pow(c,3)-2)},easeFrom:function(c){return Math.pow(c,4)},easeTo:function(c){return Math.pow(c,0.25)}};!function(c){if(c){c.extend(c.easing,a)}}(b.jQuery);!function(c){if(c){c.easings=a}}(b.morpheus)}(this);
+!function (name, definition) {
+  if (typeof define == 'function') define(definition)
+  else if (typeof module != 'undefined') module.exports = definition()
+  else this[name] = definition()
+}('morpheus', function () {
+
+  var context = this
+    , doc = document
+    , win = window
+    , html = doc.documentElement
+    , thousand = 1000
+    , rgbOhex = /^rgb\(|#/
+    , relVal = /^([+\-])=([\d\.]+)/
+    , numUnit = /^(?:[\+\-]=)?\d+(?:\.\d+)?(%|in|cm|mm|em|ex|pt|pc|px)$/
+    , rotate = /rotate\(((?:[+\-]=)?([\-\d\.]+))deg\)/
+    , scale = /scale\(((?:[+\-]=)?([\d\.]+))\)/
+    , skew = /skew\(((?:[+\-]=)?([\-\d\.]+))deg, ?((?:[+\-]=)?([\-\d\.]+))deg\)/
+    , translate = /translate\(((?:[+\-]=)?([\-\d\.]+))px, ?((?:[+\-]=)?([\-\d\.]+))px\)/
+      // these elements do not require 'px'
+    , unitless = { lineHeight: 1, zoom: 1, zIndex: 1, opacity: 1, transform: 1}
+
+      // which property name does this browser use for transform
+    , transform = function () {
+        var styles = doc.createElement('a').style
+          , props = ['webkitTransform','MozTransform','OTransform','msTransform','Transform'], i
+        for (i = 0; i < props.length; i++) {
+          if (props[i] in styles) return props[i]
+        }
+      }()
+
+      // does this browser support the opacity property?
+    , opasity = function () {
+        return typeof doc.createElement('a').style.opacity !== 'undefined'
+      }()
+
+      // initial style is determined by the elements themselves
+    , getStyle = doc.defaultView && doc.defaultView.getComputedStyle ?
+        function (el, property) {
+          property = property == 'transform' ? transform : property
+          var value = null
+            , computed = doc.defaultView.getComputedStyle(el, '')
+          computed && (value = computed[camelize(property)])
+          return el.style[property] || value
+        } : html.currentStyle ?
+
+        function (el, property) {
+          property = camelize(property)
+
+          if (property == 'opacity') {
+            var val = 100
+            try {
+              val = el.filters['DXImageTransform.Microsoft.Alpha'].opacity
+            } catch (e1) {
+              try {
+                val = el.filters('alpha').opacity
+              } catch (e2) {}
+            }
+            return val / 100
+          }
+          var value = el.currentStyle ? el.currentStyle[property] : null
+          return el.style[property] || value
+        } :
+        function (el, property) {
+          return el.style[camelize(property)]
+        }
+    , frame = function () {
+        // native animation frames
+        // http://webstuff.nfshost.com/anim-timing/Overview.html
+        // http://dev.chromium.org/developers/design-documents/requestanimationframe-implementation
+        return win.requestAnimationFrame  ||
+          win.webkitRequestAnimationFrame ||
+          win.mozRequestAnimationFrame    ||
+          win.oRequestAnimationFrame      ||
+          win.msRequestAnimationFrame     ||
+          function (callback) {
+            win.setTimeout(function () {
+              callback(+new Date())
+            }, 11) // these go to eleven
+          }
+      }()
+    , children = []
+
+  function has(array, elem, i) {
+    if (Array.prototype.indexOf) return array.indexOf(elem)
+    for (i = 0; i < array.length; ++i) {
+      if (array[i] === elem) return i
+    }
+  }
+
+  function render(t) {
+    var i, count = children.length
+    for (i = count; i--;) {
+      children[i](t)
+    }
+    children.length && frame(render)
+  }
+
+  function live(f) {
+    if (children.push(f) === 1) frame(render)
+  }
+
+  function die(f) {
+    var i, rest, index = has(children, f)
+    if (index >= 0) {
+      rest = children.slice(index+1)
+      children.length = index
+      children = children.concat(rest)
+    }
+  }
+
+  function parseTransform(style, base) {
+    var values = {}, m
+    if (m = style.match(rotate)) values.rotate = by(m[1], base ? base.rotate : null)
+    if (m = style.match(scale)) values.scale = by(m[1], base ? base.scale : null)
+    if (m = style.match(skew)) {values.skewx = by(m[1], base ? base.skewx : null); values.skewy = by(m[3], base ? base.skewy : null)}
+    if (m = style.match(translate)) {values.translatex = by(m[1], base ? base.translatex : null); values.translatey = by(m[3], base ? base.translatey : null)}
+    return values
+  }
+
+  function formatTransform(v) {
+    var s = ''
+    if ('rotate' in v) s += 'rotate(' + v.rotate + 'deg) '
+    if ('scale' in v) s += 'scale(' + v.scale + ') '
+    if ('translatex' in v) s += 'translate(' + v.translatex + 'px,' + v.translatey + 'px) '
+    if ('skewx' in v) s += 'skew(' + v.skewx + 'deg,' + v.skewy + 'deg)'
+    return s
+  }
+
+  function rgb(r, g, b) {
+    return '#' + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)
+  }
+
+  // convert rgb and short hex to long hex
+  function toHex(c) {
+    var m = /rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(c)
+    return (m ? rgb(m[1], m[2], m[3]) : c)
+      .replace(/#(\w)(\w)(\w)$/, '#$1$1$2$2$3$3') // short skirt to long jacket
+  }
+
+  // change font-size => fontSize etc.
+  function camelize(s) {
+    return s.replace(/-(.)/g, function (m, m1) {
+      return m1.toUpperCase()
+    })
+  }
+
+  // aren't we having it?
+  function fun(f) {
+    return typeof f == 'function'
+  }
+
+  /**
+    * Core tween method that requests each frame
+    * @param duration: time in milliseconds. defaults to 1000
+    * @param fn: tween frame callback function receiving 'position'
+    * @param done {optional}: complete callback function
+    * @param ease {optional}: easing method. defaults to easeOut
+    * @param from {optional}: integer to start from
+    * @param to {optional}: integer to end at
+    * @returns method to stop the animation
+    */
+  function tween(duration, fn, done, ease, from, to) {
+    ease = fun(ease) ? ease : morpheus.easings[ease] || function (t) {
+      // default to a pleasant-to-the-eye easeOut (like native animations)
+      return Math.sin(t * Math.PI / 2)
+    }
+    var time = duration || thousand
+      , self = this
+      , diff = to - from
+      , start = +new Date()
+      , stop = 0
+      , end = 0
+    live(run)
+
+    function run(t) {
+      var delta = t - start
+      if (delta > time || stop) {
+        to = isFinite(to) ? to : 1
+        stop ? end && fn(to) : fn(to)
+        die(run)
+        return done && done.apply(self)
+      }
+      // if you don't specify a 'to' you can use tween as a generic delta tweener
+      // cool, eh?
+      isFinite(to) ?
+        fn((diff * ease(delta / time)) + from) :
+        fn(ease(delta / time))
+    }
+    return {
+      stop: function (jump) {
+        stop = 1
+        end = jump // jump to end of animation?
+        if (!jump) done = null // remove callback if not jumping to end
+      }
+    }
+  }
+
+  /**
+    * generic bezier method for animating x|y coordinates
+    * minimum of 2 points required (start and end).
+    * first point start, last point end
+    * additional control points are optional (but why else would you use this anyway ;)
+    * @param points: array containing control points
+       [[0, 0], [100, 200], [200, 100]]
+    * @param pos: current be(tween) position represented as float  0 - 1
+    * @return [x, y]
+    */
+  function bezier(points, pos) {
+    var n = points.length, r = [], i, j
+    for (i = 0; i < n; ++i) {
+      r[i] = [points[i][0], points[i][1]]
+    }
+    for (j = 1; j < n; ++j) {
+      for (i = 0; i < n - j; ++i) {
+        r[i][0] = (1 - pos) * r[i][0] + pos * r[parseInt(i + 1, 10)][0]
+        r[i][1] = (1 - pos) * r[i][1] + pos * r[parseInt(i + 1, 10)][1]
+      }
+    }
+    return [r[0][0], r[0][1]]
+  }
+
+  // this gets you the next hex in line according to a 'position'
+  function nextColor(pos, start, finish) {
+    var r = [], i, e, from, to
+    for (i = 0; i < 6; i++) {
+      from = Math.min(15, parseInt(start.charAt(i),  16))
+      to   = Math.min(15, parseInt(finish.charAt(i), 16))
+      e = Math.floor((to - from) * pos + from)
+      e = e > 15 ? 15 : e < 0 ? 0 : e
+      r[i] = e.toString(16)
+    }
+    return '#' + r.join('')
+  }
+
+  // this retreives the frame value within a sequence
+  function getTweenVal(pos, units, begin, end, k, i, v) {
+    if (k == 'transform') {
+      v = {}
+      for(var t in begin[i][k]) {
+        v[t] = (t in end[i][k]) ? Math.round(((end[i][k][t] - begin[i][k][t]) * pos + begin[i][k][t]) * thousand) / thousand : begin[i][k][t]
+      }
+      return v
+    } else if (typeof begin[i][k] == 'string') {
+      return nextColor(pos, begin[i][k], end[i][k])
+    } else {
+      // round so we don't get crazy long floats
+      v = Math.round(((end[i][k] - begin[i][k]) * pos + begin[i][k]) * thousand) / thousand
+      // some css properties don't require a unit (like zIndex, lineHeight, opacity)
+      if (!(k in unitless)) v += units[i][k] || 'px'
+      return v
+    }
+  }
+
+  // support for relative movement via '+=n' or '-=n'
+  function by(val, start, m, r, i) {
+    return (m = relVal.exec(val)) ?
+      (i = parseFloat(m[2])) && (start + (m[1] == '+' ? 1 : -1) * i) :
+      parseFloat(val)
+  }
+
+  /**
+    * morpheus:
+    * @param element(s): HTMLElement(s)
+    * @param options: mixed bag between CSS Style properties & animation options
+    *  - {n} CSS properties|values
+    *     - value can be strings, integers,
+    *     - or callback function that receives element to be animated. method must return value to be tweened
+    *     - relative animations start with += or -= followed by integer
+    *  - duration: time in ms - defaults to 1000(ms)
+    *  - easing: a transition method - defaults to an 'easeOut' algorithm
+    *  - complete: a callback method for when all elements have finished
+    *  - bezier: array of arrays containing x|y coordinates that define the bezier points. defaults to none
+    *     - this may also be a function that receives element to be animated. it must return a value
+    */
+  function morpheus(elements, options) {
+    var els = elements ? (els = isFinite(elements.length) ? elements : [elements]) : [], i
+      , complete = options.complete
+      , duration = options.duration
+      , ease = options.easing
+      , points = options.bezier
+      , begin = []
+      , end = []
+      , units = []
+      , bez = []
+      , originalLeft
+      , originalTop
+
+    delete options.complete;
+    delete options.duration;
+    delete options.easing;
+    delete options.bezier;
+
+    if (points) {
+      // remember the original values for top|left
+      originalLeft = options.left;
+      originalTop = options.top;
+      delete options.right;
+      delete options.bottom;
+      delete options.left;
+      delete options.top;
+    }
+
+    for (i = els.length; i--;) {
+
+      // record beginning and end states to calculate positions
+      begin[i] = {}
+      end[i] = {}
+      units[i] = {}
+
+      // are we 'moving'?
+      if (points) {
+
+        var left = getStyle(els[i], 'left')
+          , top = getStyle(els[i], 'top')
+          , xy = [by(fun(originalLeft) ? originalLeft(els[i]) : originalLeft || 0, parseFloat(left)),
+                  by(fun(originalTop) ? originalTop(els[i]) : originalTop || 0, parseFloat(top))]
+
+        bez[i] = fun(points) ? points(els[i], xy) : points
+        bez[i].push(xy)
+        bez[i].unshift([
+            parseInt(left, 10)
+          , parseInt(top, 10)
+        ])
+      }
+
+      for (var k in options) {
+        var v = getStyle(els[i], k), unit
+          , tmp = fun(options[k]) ? options[k](els[i]) : options[k]
+        if (typeof tmp == 'string' &&
+            rgbOhex.test(tmp) &&
+            !rgbOhex.test(v)) {
+          delete options[k]; // remove key :(
+          continue; // cannot animate colors like 'orange' or 'transparent'
+                    // only #xxx, #xxxxxx, rgb(n,n,n)
+        }
+
+        begin[i][k] = k == 'transform' ? parseTransform(v) :
+          typeof tmp == 'string' && rgbOhex.test(tmp) ?
+            toHex(v).slice(1) :
+            parseFloat(v)
+        end[i][k] = k == 'transform' ? parseTransform(tmp,begin[i][k]) :
+          typeof tmp == 'string' && tmp.charAt(0) == '#' ?
+            toHex(tmp).slice(1) :
+            by(tmp, parseFloat(v));
+        // record original unit
+        (typeof tmp == 'string') && (unit = tmp.match(numUnit)) && (units[i][k] = unit[1])
+      }
+    }
+    // ONE TWEEN TO RULE THEM ALL
+    return tween.apply(els, [duration, function (pos, v, xy) {
+      // normally not a fan of optimizing for() loops, but we want something
+      // fast for animating
+      for (i = els.length; i--;) {
+        if (points) {
+          xy = bezier(bez[i], pos)
+          els[i].style.left = xy[0] + 'px'
+          els[i].style.top = xy[1] + 'px'
+        }
+        for (var k in options) {
+          v = getTweenVal(pos, units, begin, end, k, i)
+          k == 'transform' ?
+            els[i].style[transform] = formatTransform(v) :
+            k == 'opacity' && !opasity ?
+              (els[i].style.filter = 'alpha(opacity=' + (v * 100) + ')') :
+              (els[i].style[camelize(k)] = v)
+        }
+      }
+    }, complete, ease])
+  }
+
+  // expose useful methods
+  morpheus.tween = tween
+  morpheus.getStyle = getStyle
+  morpheus.bezier = bezier
+  morpheus.transform = transform
+  morpheus.parseTransform = parseTransform
+  morpheus.formatTransform = formatTransform
+  morpheus.easings = {}
+
+  return morpheus
+
+})
