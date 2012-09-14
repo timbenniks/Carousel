@@ -1,6 +1,83 @@
-# Carousel Boilerplate
+#Carousel Boilerplate
 
-Lately almost every project needs a carousel of some sort.
-Most libraries or plugins are very big and not very easy to extend.
-This is the boilerplate code we use for every project.
+Lately a lot of our projects need a carousel of some sort.
+Most libraries or plugins are big and not easy to extend.
+This is the boilerplate code we use for all projects.
 
+##How to use
+A very simple setup could look like this:
+
+```javascript
+$(function()
+{
+    var carouselOpts = 
+    {
+        prev: '.carousel-prev',
+        next: '.carousel-next', 
+        loop: false, 
+        auto: false,
+    },
+
+    pagerOpts = 
+    {
+        carouselToMove: $('.carousel')
+    },
+    
+    carouselInstance = new Carousel.Base($('.carousel'), carouselOpts),
+    carouselPager = new Carousel.Pager($('.carousel-pager'));
+});
+```
+##Options
+
+For the Carousel.Base class:
+* speed (speed in ms)
+* timeoutSpeed (speed in ms, is only applied if auto is set to true)
+* easing (default is 'easeInOutExpo')
+* auto (enables autorun)
+* loop (If set to true the carousel will go to the first slide when clicking the next button after the last slide was shown.)
+* prev (jquery selector)
+* next (jquery selector)
+
+For the Carousel.Pager class:
+* activateOn (Activate the pager item after or before the carousel has moved. Defaults to: 'beforemove'. The other option is 'aftermove').
+* killAutoRunAfterPagerIsUsed (if the carousel's auto option has been set, interacting with the carousel will kill the autorun).
+* carouselToMove (jQuery selector for the carousel that is being served by the pager.)
+
+## Dependencies
+This Carousel makes use of jQuery and Morpheus (animation library)
+
+##Easings
+swingFromTo,
+swingFrom,
+swingTo,
+easeFromTo,
+easeFrom,
+easeTo,
+easeInQuad,
+easeOutQuad,
+easeInOutQuad,
+easeInCubic,
+easeOutCubic,
+easeInOutCubic,
+easeInQuart,
+easeOutQuart,
+easeInOutQuart,
+easeInQuint,
+easeOutQuint,
+easeInOutQuint,
+easeInSine,
+easeOutSine,
+easeInOutSine,
+easeInExpo,
+easeOutExpo,
+easeInOutExpo,
+easeInCirc,
+easeOutCirc,
+easeInOutCirc,
+easeOutBounce,
+easeInBack,
+easeOutBack,
+easeInOutBack,
+bounce,
+bouncePast,
+elastic.
