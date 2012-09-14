@@ -1,6 +1,6 @@
 #Carousel Boilerplate
 
-Lately a lot of our projects need a carousel of some sort.
+Many of our projects need a carousel of some sort.
 Most libraries or plugins are big and not easy to extend.
 This is the boilerplate code we use for all projects.
 
@@ -27,6 +27,7 @@ $(function()
     carouselPager = new Carousel.Pager($('.carousel-pager'));
 });
 ```
+
 ##Options
 
 For the Carousel.Base class:
@@ -44,7 +45,7 @@ For the Carousel.Pager class:
 * carouselToMove (jQuery selector for the carousel that is being served by the pager.)
 
 ## Dependencies
-This Carousel makes use of jQuery and Morpheus (animation library)
+This Carousel makes use of jQuery and Morpheus (animation library).
 
 ##Easings
 swingFromTo,
