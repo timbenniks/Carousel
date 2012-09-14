@@ -1,0 +1,6 @@
+# Carousel Boilerplate
+
+Lately almost every project needs a carousel of some sort.
+Most libraries or plugins are very big and not very easy to extend.
+This is the boilerplate code we use for every project.
+
