@@ -38,13 +38,15 @@
 
 			bindArrows();
 
-			carousel.on('moveTo', onMoveTo);
-			carousel.on('killAutoRun', killAutoRun);
-
 			if(opts.auto)
 			{
 				handleAutoRun();
 			}
+
+			carousel.on('moveTo', onMoveTo);
+			carousel.on('killAutoRun', killAutoRun);
+			carousel.on('prev', prev);
+			carousel.on('next', next);
 		},
 
 		bindArrows = function()
