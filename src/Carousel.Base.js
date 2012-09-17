@@ -367,4 +367,16 @@
 		};
 	};
 
+	// Create a jQuery plugin for the peoples
+	$.fn.carousel = function(options)
+	{
+    	return this.each(function()
+    	{
+	    	if(!$.data(this, 'carousel'))
+	        {
+	        	$.data(this, 'carousel' , new Carousel.Base(this, options));
+	        }
+        });
+   }
+
 }(jQuery, window.Carousel = window.Carousel || {}, window.morpheus);

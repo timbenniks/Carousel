@@ -18,6 +18,11 @@
 
 		init = function()
 		{
+			if(!pagerLinks.length)
+			{
+				throw('Cannot find pager links.');
+			}
+			
 			pagerLinks.on('click.CarouselPager', onCLick);
 
 			opts.carouselToMove.on(opts.activateOn, function(e)
@@ -41,7 +46,7 @@
 
 			if(opts.killAutoRunAfterPagerIsUsed)
 			{
-				opts.carouselToMove.trigger('killAutoRun');
+				opts.carouselToMove.trigger('stop');
 			}
 
 			e.preventDefault();
@@ -57,6 +62,18 @@
 		return {
 			destroy: destroy
 		};
+		
+		// Create a jQuery plugin for the peoples
+		$.fn.carouselPager = function(options)
+		{
+	    	return this.each(function()
+	    	{
+	        	if(!$.data(this, 'carouselPager'))
+	        	{
+	        		$.data(this, 'carousel' , new Carousel.Pager(this, options));
+	        	}
+	        });
+	   }
 	};
 
 }(jQuery, window.Carousel = window.Carousel || {});
