@@ -24,7 +24,7 @@ $(function()
     },
     
     carouselInstance = new Carousel.Base($('.carousel'), carouselOpts),
-    carouselPager = new Carousel.Pager($('.carousel-pager'));
+    carouselPager = new Carousel.Pager($('.carousel-pager'), pagerOpts);
 });
 ```
 
