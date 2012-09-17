@@ -74,7 +74,7 @@ $('<carousel_selector>').trigger(
 $('<carousel_selector>').trigger('stop');
 ```
 
-##Public functions
+## Public functions
 If you don't want to use event based communication you can also use the public functions exposed by the Carousel.Base class.
 
 * `moveTo` Move the Carousel to a specific slide. Use `index` as variable in your event trigger.
@@ -89,8 +89,16 @@ If you don't want to use event based communication you can also use the public f
 * `getItemByIndex` Returns a slide by viewIndex
 * `destroy` Removes all bindings and stops the Carousel if autorun was set.
 
-## Dependencies
+##Dependencies
 This Carousel makes use of jQuery and Morpheus (animation library).
+
+##jQuery Plugin
+As this Carousel is dependent on jQuery anyways I also threw in a jQuery plugin.
+
+```javascript
+$('.carousel').carousel(carouselOpts);
+$('.carousel-pager').carouselPager(pagerOpts);
+```
 
 ##Easings
 * swingFromTo

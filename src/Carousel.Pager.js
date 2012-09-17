@@ -62,18 +62,18 @@
 		return {
 			destroy: destroy
 		};
-		
-		// Create a jQuery plugin for the peoples
-		$.fn.carouselPager = function(options)
-		{
-	    	return this.each(function()
-	    	{
-	        	if(!$.data(this, 'carouselPager'))
-	        	{
-	        		$.data(this, 'carousel' , new Carousel.Pager(this, options));
-	        	}
-	        });
-	   }
 	};
+	
+	// Create a jQuery plugin for the peoples
+	$.fn.carouselPager = function(options)
+	{
+    	return this.each(function()
+    	{
+        	if(!$.data(this, 'carouselPager'))
+        	{
+        		$.data(this, 'carouselPager' , new Carousel.Pager(this, options));
+        	}
+        });
+    }
 
 }(jQuery, window.Carousel = window.Carousel || {});
