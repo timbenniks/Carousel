@@ -1,46 +1,41 @@
-﻿/* 
-*	@Class:			Carousel.Base
-*	@Author:		Tim Benniks <tim.benniks@akqa.com>
-*	@Dependencies:	jQuery, morpheus
----------------------------------------------------------------------------- */
-
+/*globals morpheus:true*/
 (function($, Carousel, morpheus)
 {
-	"use strict",
+	"use strict";
 
 	Carousel.Base = function(element, options)
 	{
-		var defaults = 
+		var defaults =
 			{
-				speed: 500, 
-				timeoutSpeed: 1000, 
-				easing: 'easeInOutExpo', 
-				auto: false, 
+				speed: 500,
+				timeoutSpeed: 1000,
+				easing: 'easeInOutExpo',
+				auto: false,
 				loop: false,
 				prev: null,
 				next: null
 			},
-			
+
 			opts = $.extend({}, defaults, options),
-			
+
 			carousel = $(element),
 			carouselWrapper = carousel.parent(),
-		    carouselItemCount = carousel.find('li').length,
+			carouselItemCount = carousel.find('li').length,
 			carouselItemWidth = carousel.find('li:first').outerWidth(true),
 			carouselPrevBtn = $(opts.prev),
 			carouselNextBtn = $(opts.next),
-		    
+
 			viewIndex = 0,
-		    cachedIndex = 0,
+			cachedIndex = 0,
 			autoRunTimeout,
-		    pause = false,
-		    
+			pause = false,
+
 		init = function()
 		{
 			carousel
 				.css({ width: totalSlides() * carouselItemWidth })
 				.addClass('carousel-added');
-			
+
 			bindArrows();
 
 			carousel.on('moveTo', onMoveTo);
@@ -51,14 +46,14 @@
 				handleAutoRun();
 			}
 		},
-		
+
 		bindArrows = function()
 		{
 			if(carouselPrevBtn.length)
 			{
 				carouselPrevBtn.on('click.Carousel', prev);
 			}
-			
+
 			if(carouselNextBtn.length)
 			{
 				carouselNextBtn.on('click.Carousel', next);
@@ -71,7 +66,7 @@
 			{
 				carouselPrevBtn.off('click.Carousel', prev);
 			}
-			
+
 			if(carouselNextBtn.length)
 			{
 				carouselNextBtn.off('click.Carousel', next);
@@ -92,7 +87,7 @@
 
 		calcNextIndex = function()
 		{
-			if(viewIndex < (totalSlides() - 1)) 
+			if(viewIndex < (totalSlides() - 1))
 			{
 				return viewIndex + 1;
 			}
@@ -108,7 +103,7 @@
 			viewIndex = calcPrevIndex();
 			move();
 		},
-		
+
 		next = function()
 		{
 			cachedIndex = viewIndex;
@@ -126,13 +121,16 @@
 
 		moveTo = function(index)
 		{
-			if(index === viewIndex) return;
-
+			if(index === viewIndex) 
+			{
+				return;
+			}
+			
 			if(index <= (totalSlides() - 1) && index >= 0)
 			{
 				cachedIndex = viewIndex;
 				viewIndex = index;
-				
+
 				move();
 			}
 			else
@@ -140,13 +138,16 @@
 				throw 'Incorrect viewIndex provided';
 			}
 		},
-		
+
 		checkButtonState = function()
 		{
-			if(opts.loop) return;
-
-			var hasNext, hasPrev;
+			if(opts.loop) 
+			{
+				return;
+			}
 			
+			var hasNext, hasPrev;
+
 			hasPrev = viewIndex > 0;
 			hasNext = viewIndex < totalSlides() - 1;
 
@@ -158,11 +159,11 @@
 			{
 				carouselPrevBtn.addClass('inactive').removeClass('active').attr('disabled', 'disabled');
 			}
-			
+
 			if(hasNext)
 			{
 				carouselNextBtn.addClass('active').removeClass('inactive').removeAttr('disabled');
-			}	
+			}
 			else
 			{
 				carouselNextBtn.addClass('inactive').removeClass('active').attr('disabled', 'disabled');
@@ -173,12 +174,12 @@
 		{
 			return viewIndex;
 		},
-		
+
 		currentItem = function()
 		{
 			return carousel.find('li:eq('+ viewIndex +')');
 		},
-		
+
 		getItemByIndex = function(index)
 		{
 			if(index <= (totalSlides() - 1) && index >= 0)
@@ -190,12 +191,12 @@
 				throw 'Incorrect item Index provided';
 			}
 		},
-		    
+
 		setInactive = function()
 		{
 			carousel.find('li').removeClass('active');
 		},
-		
+
 		setActive = function(el)
 		{
 			el.addClass('active');
@@ -205,13 +206,13 @@
 		{
 			return carouselItemCount;
 		},
-		
+
 		move = function()
 		{
 			setInactive();
 			unbindArrows();
 			checkButtonState();
-			
+
 			carousel.trigger(
 			{
 				type: 'beforemove',
@@ -219,22 +220,22 @@
 				currentItem: currentItem(),
 				currentCarousel: carouselWrapper
 			});
-			
+
 			var offset = -(carouselItemWidth * currentPos());
 
-			morpheus(carousel[0], 
-			{ 
+			morpheus(carousel[0],
+			{
 				left: offset,
 				duration: opts.speed,
-			 	easing: morpheus.easings[opts.easing],
-			 	complete: transitionEnd
+				easing: morpheus.easings[opts.easing],
+				complete: transitionEnd
 			});
 		},
-		
+
 		transitionEnd = function()
 		{
 			setActive(currentItem());
-			
+
 			carousel.trigger(
 			{
 				type: 'aftermove',
@@ -242,7 +243,7 @@
 				currentItem: currentItem(),
 				currentCarousel: carouselWrapper
 			});
-			
+
 			bindArrows();
 			setAutoRunTimeout();
 		},
@@ -258,25 +259,25 @@
 			{
 				unsetAutoRunTimeout();
 			});
-			
+
 			carouselWrapper.on('mouseleave.Carousel', function()
 			{
 				pause = false;
 				setAutoRunTimeout();
 			});
-			
+
 			setAutoRunTimeout();
 		},
-		
+
 		setAutoRunTimeout = function()
 		{
 			if(!opts.auto || pause)
 			{
 				return;
 			}
-			
+
 			clearTimeout(autoRunTimeout);
-			
+
 			autoRunTimeout = setTimeout(function()
 			{
 				if(viewIndex < (totalSlides() - 1))
@@ -290,7 +291,7 @@
 
 			}, opts.timeoutSpeed);
 		},
-		
+
 		unsetAutoRunTimeout = function()
 		{
 			clearTimeout(autoRunTimeout);
@@ -303,7 +304,7 @@
 			carouselWrapper.off('mouseleave.Carousel');
 			unsetAutoRunTimeout();
 		},
-		    
+
 		destroy = function()
 		{
 			carouselPrevBtn.off('click.Carousel', prev);
@@ -313,7 +314,7 @@
 
 		init();
 
-		return { 
+		return {
 			moveTo: moveTo,
 			prev: prev,
 			next: next,

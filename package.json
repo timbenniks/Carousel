@@ -1,0 +1,13 @@
+{
+    "name": "Carousel",
+    "title": "Carousel Boilerplate",
+    "description": "A simple and extendible carousel boilerplate",
+    "version": "0.1",
+    
+    "author":
+    {
+        "name": "Tim Benniks",
+        "email": "tim.benniks@akqa.com",
+        "url": "http://www.timbenniks.nl"
+    }
+}
