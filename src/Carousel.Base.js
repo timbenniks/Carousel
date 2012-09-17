@@ -1,5 +1,5 @@
 /*globals morpheus:true*/
-(function($, Carousel, morpheus)
+!function ($, Carousel, morpheus)
 {
 	"use strict";
 
@@ -13,7 +13,9 @@
 				auto: false,
 				loop: false,
 				prev: null,
-				next: null
+				next: null,
+				startAt: 0,
+				step: 0
 			},
 
 			opts = $.extend({}, defaults, options),
@@ -21,7 +23,7 @@
 			carousel = $(element),
 			carouselWrapper = carousel.parent(),
 			carouselItemCount = carousel.find('li').length,
-			carouselItemWidth = carousel.find('li:first').outerWidth(true),
+			carouselItemWidth = opts.step,
 			carouselPrevBtn = $(opts.prev),
 			carouselNextBtn = $(opts.next),
 
@@ -32,6 +34,11 @@
 
 		init = function()
 		{
+			if(carouselItemWidth === 0)
+			{
+				carouselItemWidth = carousel.find('li:first').outerWidth(true);
+			}
+			
 			carousel
 				.css({ width: totalSlides() * carouselItemWidth })
 				.addClass('carousel-added');
@@ -41,6 +48,12 @@
 			if(opts.auto)
 			{
 				handleAutoRun();
+			}
+			
+			if(opts.startAt > 0)
+			{
+				viewIndex = opts.startAt;
+				move();
 			}
 
 			carousel.on('moveTo', onMoveTo);
@@ -99,18 +112,28 @@
 			}
 		},
 
-		prev = function()
+		prev = function(e)
 		{
 			cachedIndex = viewIndex;
 			viewIndex = calcPrevIndex();
 			move();
+
+			if(e)
+			{
+				e.preventDefault();
+			}
 		},
 
-		next = function()
+		next = function(e)
 		{
 			cachedIndex = viewIndex;
 			viewIndex = calcNextIndex();
 			move();
+
+			if(e)
+			{
+				e.preventDefault();
+			}
 		},
 
 		onMoveTo = function(e)
@@ -330,4 +353,4 @@
 		};
 	};
 
-}(jQuery, window.Carousel = window.Carousel || {}, morpheus));
+}(jQuery, window.Carousel = window.Carousel || {}, window.morpheus);

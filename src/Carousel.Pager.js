@@ -1,4 +1,4 @@
-(function($, Carousel)
+!function($, Carousel)
 {
 	"use strict";
 
@@ -8,9 +8,9 @@
 
 			defaults =
 			{
-				activateOn: 'beforemove',
+				activateOn: 'aftermove',
 				killAutoRunAfterPagerIsUsed: false,
-				carouselToMove: pager.parents().find('.carousel-added')
+				carouselToMove: pager.parent().find('.carousel-added')
 			},
 
 			opts = $.extend({}, defaults, options),
@@ -59,4 +59,4 @@
 		};
 	};
 
-}(jQuery, window.Carousel = window.Carousel || {}));
+}(jQuery, window.Carousel = window.Carousel || {});
