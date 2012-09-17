@@ -1,7 +1,7 @@
 #Carousel Boilerplate
 
 Many of our projects need a carousel of some sort.
-Most libraries or plugins are big and not easy to extend.
+As most libraries or plugins are big and not easy to extend we created our own.
 This is the boilerplate code we use for all projects.
 
 ##How to use
@@ -36,13 +36,27 @@ For the Carousel.Base class:
 * easing (default is 'easeInOutExpo')
 * auto (enables autorun)
 * loop (If set to true the carousel will go to the first slide when clicking the next button after the last slide was shown.)
-* prev (jquery selector)
-* next (jquery selector)
+* prev (jQuery selector)
+* next (jQuery selector)
 
 For the Carousel.Pager class:
 * activateOn (Activate the pager item after or before the carousel has moved. Defaults to: 'beforemove'. The other option is 'aftermove').
 * killAutoRunAfterPagerIsUsed (if the carousel's auto option has been set, interacting with the carousel will kill the autorun).
 * carouselToMove (jQuery selector for the carousel that is being served by the pager.)
+
+##Events
+The Carousel publishes `beforemove` and `aftermove` events. 
+Both events have the following data attached: 
+
+* `currentPos` The current viewIndex at the time of the event.
+* `currentItem` The activated slide's DOM node.
+* `currentCarousel` The parent DOM of the carousel.
+
+The carousel also listens to events: 
+* `moveTo` Move the Carousel to a specific slide. Use `index` as variable in your event trigger.
+* `killAutoRun` If the Carousel has the autorun option enabled, this will kill that.
+* `prev` Go to the previous slide.
+* `next` Go to the next slide.
 
 ## Dependencies
 This Carousel makes use of jQuery and Morpheus (animation library).
