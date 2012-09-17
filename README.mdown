@@ -16,15 +16,12 @@ $(function()
         next: '.carousel-next', 
         loop: false, 
         auto: false,
-    },
-
-    pagerOpts = 
-    {
-        carouselToMove: $('.carousel')
+        startAt: 2,
+        speed: 1000
     },
     
     carouselInstance = new Carousel.Base($('.carousel'), carouselOpts),
-    carouselPager = new Carousel.Pager($('.carousel-pager'), pagerOpts);
+    carouselPager = new Carousel.Pager($('.carousel-pager'));
 });
 ```
 
