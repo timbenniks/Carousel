@@ -31,21 +31,22 @@ $(function()
 ##Options
 
 For the Carousel.Base class:
-* speed (speed in ms)
-* timeoutSpeed (speed in ms, is only applied if auto is set to true)
-* easing (default is 'easeInOutExpo')
-* auto (enables autorun)
-* loop (If set to true the carousel will go to the first slide when clicking the next button after the last slide was shown.)
-* prev (jQuery selector)
-* next (jQuery selector)
+* `speed` Speed in ms.
+* `timeoutSpeed` Speed in ms, is only applied if auto is set to true.
+* `easing` Default is `easeInOutExpo`.
+* `auto` Enables autorun.
+* `loop` If set to true the carousel will go to the first slide when clicking the next button after the last slide was shown.
+* `prev` jQuery selector.
+* `next` jQuery selector.
 
 For the Carousel.Pager class:
-* activateOn (Activate the pager item after or before the carousel has moved. Defaults to: 'beforemove'. The other option is 'aftermove').
-* killAutoRunAfterPagerIsUsed (if the carousel's auto option has been set, interacting with the carousel will kill the autorun).
-* carouselToMove (jQuery selector for the carousel that is being served by the pager.)
+* `activateOn` Activate the pager item after or before the carousel has moved. Defaults to: `beforemove`. The other option is `aftermove`.
+* `killAutoRunAfterPagerIsUsed` If the carousel's auto option has been set, interacting with the carousel will kill the autorun.
+* `carouselToMove` jQuery selector for the carousel that is being served by the pager.
 
 ##Events
 The Carousel publishes `beforemove` and `aftermove` events. 
+
 Both events have the following data attached: 
 
 * `currentPos` The current viewIndex at the time of the event.
