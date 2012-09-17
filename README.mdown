@@ -39,9 +39,9 @@ For the Carousel.Base class:
 * `step` use this value to override the with of the slides. Defaults the CSS with of the slides.
 
 For the Carousel.Pager class:
-* `activateOn` Activate the pager item after or before the carousel has moved. Defaults to: `beforemove`. The other option is `aftermove`.
+* `activateOn` Activate the pager item after or before the carousel has moved. Defaults to: `beforemove`. Also available: `aftermove`.
 * `killAutoRunAfterPagerIsUsed` If the carousel's auto option has been set, interacting with the carousel will kill the autorun.
-* `carouselToMove` jQuery selector for the carousel that is being served by the pager.
+* `carouselToMove` jQuery selector for the carousel that is being served by the pager. By default de carousel looks for the closes `ul` that acts like a carousel.
 
 ##Events
 The Carousel publishes `beforemove` and `aftermove` events. 
