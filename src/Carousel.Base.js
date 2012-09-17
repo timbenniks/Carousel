@@ -1,5 +1,5 @@
 /*globals morpheus:true*/
-!function ($, Carousel, morpheus)
+(function ($, Carousel, morpheus)
 {
 	"use strict";
 
@@ -30,7 +30,7 @@
 			viewIndex = 0,
 			cachedIndex = 0,
 			autoRunTimeout,
-			pause = false,
+			pauseCarousel = false,
 
 		init = function()
 		{
@@ -298,7 +298,7 @@
 
 		setAutoRunTimeout = function()
 		{
-			if(!opts.auto || pause)
+			if(!opts.auto || pauseCarousel)
 			{
 				return;
 			}
@@ -322,7 +322,7 @@
 		unsetAutoRunTimeout = function()
 		{
 			clearTimeout(autoRunTimeout);
-			pause = true;
+			pauseCarousel = true;
 		},
 
 		pause = function()
@@ -332,7 +332,7 @@
 		
 		resume = function()
 		{
-			pause = false;
+			pauseCarousel = false;
 			setAutoRunTimeout();
 		},
 
@@ -370,13 +370,13 @@
 	// Create a jQuery plugin for the peoples
 	$.fn.carousel = function(options)
 	{
-    	return this.each(function()
-    	{
-	    	if(!$.data(this, 'carousel'))
-	        {
-	        	$.data(this, 'carousel' , new Carousel.Base(this, options));
-	        }
-        });
-   }
+		return this.each(function()
+		{
+			if(!$.data(this, 'carousel'))
+			{
+				$.data(this, 'carousel' , new Carousel.Base(this, options));
+			}
+		});
+	};
 
-}(jQuery, window.Carousel = window.Carousel || {}, window.morpheus);
+}(jQuery, window.Carousel = window.Carousel || {}, window.morpheus));

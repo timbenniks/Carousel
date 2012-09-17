@@ -2,7 +2,24 @@
     "name": "Carousel",
     "title": "Carousel Boilerplate",
     "description": "A simple and extendible carousel boilerplate",
-    "version": "0.1",
+    "version": "0.2",
+    
+    "repository": 
+    {
+    	"type": "git",
+    	"url": "git://github.com/timbenniks/Carousel.git"
+    },
+    
+    "bugs": 
+    {
+    	"url" : "http://github.com/timbenniks/Carousel/issues"
+    },
+  
+    "licenses": 
+    [{
+    	"type": "MIT",
+    	"url": "http://github.com/timbenniks/Carousel/blob/master/LICENSE"
+    }],
     
     "author":
     {

@@ -1,4 +1,4 @@
-!function($, Carousel)
+(function($, Carousel)
 {
 	"use strict";
 
@@ -67,13 +67,13 @@
 	// Create a jQuery plugin for the peoples
 	$.fn.carouselPager = function(options)
 	{
-    	return this.each(function()
-    	{
-        	if(!$.data(this, 'carouselPager'))
-        	{
-        		$.data(this, 'carouselPager' , new Carousel.Pager(this, options));
-        	}
-        });
-    }
+		return this.each(function()
+		{
+			if(!$.data(this, 'carouselPager'))
+			{
+				$.data(this, 'carouselPager' , new Carousel.Pager(this, options));
+			}
+		});
+	};
 
-}(jQuery, window.Carousel = window.Carousel || {});
+}(jQuery, window.Carousel = window.Carousel || {}));
