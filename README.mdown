@@ -38,6 +38,8 @@ For the Carousel.Base class:
 * `loop` If set to true the carousel will go to the first slide when clicking the next button after the last slide was shown.
 * `prev` jQuery selector.
 * `next` jQuery selector.
+* `startAt` Start at a specific slide
+* `step` use this value to override the with of the slides. Defaults the CSS with of the slides.
 
 For the Carousel.Pager class:
 * `activateOn` Activate the pager item after or before the carousel has moved. Defaults to: `beforemove`. The other option is `aftermove`.
