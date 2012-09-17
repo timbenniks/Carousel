@@ -57,9 +57,11 @@ Both events have the following data attached:
 
 The carousel also listens to events: 
 * `moveTo` Move the Carousel to a specific slide. Use `index` as variable in your event trigger.
-* `killAutoRun` If the Carousel has the autorun option enabled, this will kill that.
+* `stop` If the Carousel has the autorun option enabled, this will stop de autorun.
 * `prev` Go to the previous slide.
 * `next` Go to the next slide.
+* `pause` If autorun has been set this will pause the slideshow.
+* `resume` If the Carousel was paused, this will resume it.
 
 Trigger an event like this:
 
@@ -72,8 +74,23 @@ $('<carousel_selector>').trigger(
 });
 
 // without paramaters:
-$('<carousel_selector>').trigger('killAutoRun');
+$('<carousel_selector>').trigger('stop');
 ```
+
+##Public functions
+If you don't want to use event based communication you can also use the public functiuons that are exposed by the Carousel.Base class.
+
+* `moveTo` Move the Carousel to a specific slide. Use `index` as variable in your event trigger.
+* `prev` Go to the previous slide.
+* `next` Go to the next slide.
+* `pause` If autorun has been set this will pause the slideshow.
+* `resume` If the Carousel was paused, this will resume it.
+* `stop` If the Carousel has the autorun option enabled, this will stop de autorun.
+* `currentPos` Returns teh current viewIndex.
+* `totalSlides` Returns the number of slides.
+* `currentItem` The activated slide's DOM node.
+* `getItemByIndex` Returns a slide by viewIndex
+* `destroy` Removes all bindings and stops the Carousel if autorun was set.
 
 ## Dependencies
 This Carousel makes use of jQuery and Morpheus (animation library).

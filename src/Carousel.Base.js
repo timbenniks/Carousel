@@ -56,8 +56,11 @@
 				move();
 			}
 
+			carousel.on('pause', pause);
+			carousel.on('resume', resume);
+			carousel.on('stop', stop);
+			
 			carousel.on('moveTo', onMoveTo);
-			carousel.on('killAutoRun', killAutoRun);
 			carousel.on('prev', prev);
 			carousel.on('next', next);
 		},
@@ -277,18 +280,17 @@
 		{
 			carouselWrapper.one('mousemove.Carousel', function()
 			{
-				unsetAutoRunTimeout();
+				pause();
 			});
 
 			carouselWrapper.on('mouseenter.Carousel', function()
 			{
-				unsetAutoRunTimeout();
+				pause();
 			});
 
 			carouselWrapper.on('mouseleave.Carousel', function()
 			{
-				pause = false;
-				setAutoRunTimeout();
+				resume();
 			});
 
 			setAutoRunTimeout();
@@ -323,7 +325,18 @@
 			pause = true;
 		},
 
-		killAutoRun = function()
+		pause = function()
+		{
+			unsetAutoRunTimeout();
+		},
+		
+		resume = function()
+		{
+			pause = false;
+			setAutoRunTimeout();
+		},
+
+		stop = function()
 		{
 			carouselWrapper.off('mouseenter.Carousel');
 			carouselWrapper.off('mouseleave.Carousel');
@@ -334,7 +347,7 @@
 		{
 			carouselPrevBtn.off('click.Carousel', prev);
 			carouselNextBtn.off('click.Carousel', next);
-			killAutoRun();
+			stop();
 		};
 
 		init();
@@ -347,8 +360,9 @@
 			totalSlides: totalSlides,
 			currentItem: currentItem,
 			getItemByIndex: getItemByIndex,
-			setAutoRunTimeout: setAutoRunTimeout,
-			killAutoRun: killAutoRun,
+			stop: stop,
+			pause: pause,
+			resume: resume,
 			destroy: destroy
 		};
 	};
