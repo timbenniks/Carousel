@@ -59,6 +59,20 @@ The carousel also listens to events:
 * `prev` Go to the previous slide.
 * `next` Go to the next slide.
 
+Trigger an event like this:
+
+```javascript
+// with paramaters:
+$('<carousel_selector>').trigger(
+{
+	type: 'moveTo',
+	index: 3
+});
+
+// without paramaters:
+$('<carousel_selector>').trigger('killAutoRun');
+```
+
 ## Dependencies
 This Carousel makes use of jQuery and Morpheus (animation library).
 
