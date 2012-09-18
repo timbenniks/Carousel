@@ -22,6 +22,10 @@ $(function()
     
     carouselInstance = new Carousel.Base($('.carousel'), carouselOpts),
     carouselPager = new Carousel.Pager($('.carousel-pager'));
+    
+    // Or as a jQuery plugin
+    $('.carousel').carousel(carouselOpts);
+	$('.carousel-pager').carouselPager();
 });
 ```
 
@@ -90,48 +94,8 @@ If you don't want to use event based communication you can also use the public f
 * `destroy` Removes all bindings and stops the Carousel if autorun was set.
 
 ##Dependencies
-This Carousel makes use of jQuery and Morpheus (animation library).
+This Carousel makes use of [jQuery](http://www.jquery.com) and [Morpheus](https://github.com/ded/morpheus).
 
-##jQuery Plugin
-As this Carousel is dependent on jQuery anyways I also threw in a jQuery plugin.
-
-```javascript
-$('.carousel').carousel(carouselOpts);
-$('.carousel-pager').carouselPager(pagerOpts);
-```
-
-##Easings
-* swingFromTo
-* swingFrom
-* swingTo
-* easeFromTo
-* easeFrom
-* easeTo
-* easeInQuad
-* easeOutQuad
-* easeInOutQuad
-* easeInCubic
-* easeOutCubic
-* easeInOutCubic
-* easeInQuart
-* easeOutQuart
-* easeInOutQuart
-* easeInQuint
-* easeOutQuint
-* easeInOutQuint
-* easeInSine
-* easeOutSine
-* easeInOutSine
-* easeInExpo
-* easeOutExpo
-* easeInOutExpo
-* easeInCirc
-* easeOutCirc
-* easeInOutCirc
-* easeOutBounce
-* easeInBack
-* easeOutBack
-* easeInOutBack
-* bounce
-* bouncePast
-* elastic
+##Easing	
+The Carousel uses [easing-js](https://github.com/danro/easing-js) to to do it's fancy easings. 
+Check out which ones you can use on their [documentation page](https://github.com/danro/easing-js).
