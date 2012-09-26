@@ -2,6 +2,10 @@
 {
 	"use strict";
 
+	/*
+	*	Carousel.Pager
+	*	@constructor
+	*/
 	Carousel.Pager = function(element, options)
 	{
 		var pager = $(element),
@@ -36,6 +40,9 @@
 			});
 		},
 
+		/*
+		*	Triggers tge carousel to move to the index of the clicked DOM node.
+		*/
 		onCLick = function(e)
 		{
 			opts.carouselToMove.trigger(
@@ -52,6 +59,9 @@
 			e.preventDefault();
 		},
 
+		/*
+		*	Removes the click binding on the pager links.
+		*/
 		destroy = function()
 		{
 			pagerLinks.off('click.CarouselPager');
@@ -64,7 +74,11 @@
 		};
 	};
 	
-	// Create a jQuery plugin for the peoples
+	/*
+	*	Create a jQuery plugin for the peoples.
+	*	@param {object} options The plugin options.
+	*	@return {function} Returns and instance of Carousel.Pager on the data attribute of the HTMLElement.
+	*/
 	$.fn.carouselPager = function(options)
 	{
 		return this.each(function()

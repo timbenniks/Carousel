@@ -3,6 +3,10 @@
 {
 	"use strict";
 
+	/*
+	*	Carousel.Base
+	*	@constructor
+	*/
 	Carousel.Base = function(element, options)
 	{
 		var defaults =
@@ -64,7 +68,10 @@
 			carousel.on('prev', prev);
 			carousel.on('next', next);
 		},
-
+		
+		/*
+		*	Add event listeners to the prev and next buttons if they exist.
+		*/
 		bindArrows = function()
 		{
 			if(carouselPrevBtn.length)
@@ -78,6 +85,9 @@
 			}
 		},
 
+		/*
+		*	remove event listeners to the prev and next buttons if they exist.
+		*/
 		unbindArrows = function()
 		{
 			if(carouselPrevBtn.length)
@@ -91,6 +101,10 @@
 			}
 		},
 
+		/*
+		*	Calculate the previous viewIndex. If it is already 0, return the last viewIndex.
+		*	@return {number} The current viewIndex - 1 or the last viewIndex.
+		*/
 		calcPrevIndex = function()
 		{
 			if(viewIndex === 0)
@@ -103,6 +117,10 @@
 			}
 		},
 
+		/*
+		*	Calculate the next viewIndex. If it is already teh last one, return the first viewIndex.
+		*	@return {number} The current viewIndex + 1 or the first viewIndex.
+		*/
 		calcNextIndex = function()
 		{
 			if(viewIndex < (totalSlides() - 1))
@@ -115,6 +133,10 @@
 			}
 		},
 
+		/*
+		*	Move the carousel to the previous slide state.
+		*	@param {object} e Event from the mouseclick.
+		*/
 		prev = function(e)
 		{
 			cachedIndex = viewIndex;
@@ -127,6 +149,10 @@
 			}
 		},
 
+		/*
+		*	Move the carousel to the next slide state.
+		*	@param {object} e Event from the mouseclick.
+		*/
 		next = function(e)
 		{
 			cachedIndex = viewIndex;
@@ -139,6 +165,11 @@
 			}
 		},
 
+		/*
+		*	This function is called if an event was fired to move the carousel to a specific index.
+		*	Called like this: carousel.trigger({type: 'moveTo', index: 3});
+		*	@param {object} e index to move to.
+		*/
 		onMoveTo = function(e)
 		{
 			if(typeof e.index === 'number')
@@ -146,7 +177,11 @@
 				moveTo(e.index);
 			}
 		},
-
+		
+		/*
+		*	Move the carousel to a specific index.
+		*	@param {object} index Slide to move to.
+		*/
 		moveTo = function(index)
 		{
 			if(index === viewIndex) 
@@ -166,7 +201,10 @@
 				throw 'Incorrect viewIndex provided';
 			}
 		},
-
+		
+		/*
+		*	Checks if the buttons should be disabled or not according to the viewIndex.
+		*/
 		checkButtonState = function()
 		{
 			if(opts.loop) 
@@ -198,16 +236,29 @@
 			}
 		},
 
+		/*
+		*	Get current carousel position
+		*	@returns {number} viewIndex
+		*/
 		currentPos = function()
 		{
 			return viewIndex;
 		},
 
+		/*
+		*	Get current active slide as a DOM node.
+		*	@returns {HTMLElement} The currently activated slide.
+		*/
 		currentItem = function()
 		{
 			return carousel.find('li:eq('+ viewIndex +')');
 		},
 
+		/*
+		*	Get DOM node for slide by index.
+		*	@param {number} index The index of the slide you want to get.
+		*	@returns {HTMLElement} The DOM node for selected index.
+		*/
 		getItemByIndex = function(index)
 		{
 			if(index <= (totalSlides() - 1) && index >= 0)
@@ -220,21 +271,35 @@
 			}
 		},
 
+		/*
+		*	Deactivae all slides
+		*/
 		setInactive = function()
 		{
 			carousel.find('li').removeClass('active');
 		},
 
+		/*
+		*	Activate a slide.
+		*	@param {HTMLElement} the slide you want to active.
+		*/
 		setActive = function(el)
 		{
 			el.addClass('active');
 		},
 
+		/*
+		*	Get the amount of slides
+		*	@return {number} The amount of slides in the carousel.
+		*/
 		totalSlides = function()
 		{
 			return carouselItemCount;
 		},
 
+		/*
+		*	Move the carousel according to the current viewIndex.
+		*/
 		move = function()
 		{
 			setInactive();
@@ -260,6 +325,10 @@
 			});
 		},
 
+		/*
+		*	Get's called after move() has finished.
+		*	Triggers 'aftermove' event.
+		*/
 		transitionEnd = function()
 		{
 			setActive(currentItem());
@@ -276,6 +345,10 @@
 			setAutoRunTimeout();
 		},
 
+		/*
+		*	Handles autorun events for mousemove, mouseover and mouseleave.
+		*	Sets the autorun Timeout.
+		*/
 		handleAutoRun = function()
 		{
 			carouselWrapper.one('mousemove.Carousel', function()
@@ -296,6 +369,10 @@
 			setAutoRunTimeout();
 		},
 
+		/*
+		*	Sets the autorun timeout. 
+		*	Clears and reasigns the timeout after each move().
+		*/
 		setAutoRunTimeout = function()
 		{
 			if(!opts.auto || pauseCarousel)
@@ -319,23 +396,36 @@
 			}, opts.timeoutSpeed);
 		},
 
+		/*
+		*	Clears the autorun timeout and sets pause to true.
+		*/
 		unsetAutoRunTimeout = function()
 		{
 			clearTimeout(autoRunTimeout);
 			pauseCarousel = true;
 		},
 
+		/*
+		*	Pauses the carousel if autorun was set.
+		*/
 		pause = function()
 		{
 			unsetAutoRunTimeout();
 		},
 		
+		/*
+		*	Resumes the carousel if autorun was set.
+		*/
 		resume = function()
 		{
 			pauseCarousel = false;
 			setAutoRunTimeout();
 		},
 
+		/*
+		*	Stops the carousel and unbinds the mouseenter and 
+		*	mouseleave events that are used to resume the carousel.
+		*/
 		stop = function()
 		{
 			carouselWrapper.off('mouseenter.Carousel');
@@ -343,10 +433,13 @@
 			unsetAutoRunTimeout();
 		},
 
+		/*
+		*	Stops the carousel and unbinds the prev and next buttons
+		*/
 		destroy = function()
 		{
-			carouselPrevBtn.off('click.Carousel', prev);
-			carouselNextBtn.off('click.Carousel', next);
+			carouselPrevBtn.off('click.Carousel');
+			carouselNextBtn.off('click.Carousel');
 			stop();
 		};
 
@@ -367,7 +460,11 @@
 		};
 	};
 
-	// Create a jQuery plugin for the peoples
+	/*
+	*	Create a jQuery plugin for the peoples.
+	*	@param {object} options The plugin options.
+	*	@return {function} Returns and instance of Carousel.Base on the data attribute of the HTMLElement.
+	*/
 	$.fn.carousel = function(options)
 	{
 		return this.each(function()
