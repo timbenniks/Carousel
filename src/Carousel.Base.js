@@ -184,7 +184,7 @@
 		*/
 		moveTo = function(index)
 		{
-			if(index === viewIndex) 
+			if(index === viewIndex)
 			{
 				return;
 			}
@@ -207,7 +207,7 @@
 		*/
 		checkButtonState = function()
 		{
-			if(opts.loop) 
+			if(opts.loop)
 			{
 				return;
 			}
@@ -370,7 +370,7 @@
 		},
 
 		/*
-		*	Sets the autorun timeout. 
+		*	Sets the autorun timeout.
 		*	Clears and reasigns the timeout after each move().
 		*/
 		setAutoRunTimeout = function()
@@ -423,7 +423,7 @@
 		},
 
 		/*
-		*	Stops the carousel and unbinds the mouseenter and 
+		*	Stops the carousel and unbinds the mouseenter and
 		*	mouseleave events that are used to resume the carousel.
 		*/
 		stop = function()
