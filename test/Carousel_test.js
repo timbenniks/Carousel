@@ -3,11 +3,9 @@
 /*global notDeepEqual:false, strictEqual:false, notStrictEqual:false, raises:false*/
 (function($)
 {
-	module('Carousel');
+	var DOM = $('<ul class="carousel"><li></li><li></li></ul>'),
+		carouselInstance = new Carousel.Base(DOM.find('.carousel'));
 
-	test('fancy?', 1, function()
-	{
-		ok(true, 'Carousel is very fancy indeed');
-	});
+	module('Carousel');
 
 }(jQuery));
