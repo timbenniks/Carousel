@@ -13,7 +13,6 @@ module.exports = function(grunt)
 			'/*!\n'+
 			'*	@Class: <%= pkg.title || pkg.name %>\n'+
 			'*	@Version: <%= pkg.version %>\n'+
-			'*	@Created on: <%= grunt.template.today("yyyy-mm-dd") %>\n'+
 			'*	@Description: <%= pkg.description %>\n'+
 			'*	@Author: <%= pkg.author.name %>\n'+
 			' ---------------------------------------------------------------------------- */'
@@ -24,7 +23,7 @@ module.exports = function(grunt)
 			dist:
 			{
 				src: ['src/*.js'],
-				dest: 'build/<%= pkg.name %>-<%= pkg.version %>.js'
+				dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.js'
 			}
 		},
 		
@@ -32,8 +31,8 @@ module.exports = function(grunt)
 		{
 			dist:
 			{
-				src: ['<banner:meta.banner>', '<config:concat.js.dest>'],
-				dest: 'build/<%= pkg.name %>-<%= pkg.version %>.min.js'
+				src: ['<banner:meta.banner>', '<config:concat.dist.dest>'],
+				dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.min.js'
 			}
 		},
 		
@@ -68,5 +67,5 @@ module.exports = function(grunt)
 		uglify: {}
 	});
 	
-	grunt.registerTask('default', 'lint concat');
+	grunt.registerTask('default', 'lint concat min');
 };

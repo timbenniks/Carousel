@@ -1,5 +1,5 @@
 /*globals morpheus:true*/
-(function ($, Carousel, morpheus)
+(function ($, Carousel)
 {
 	"use strict";
 
@@ -299,6 +299,7 @@
 
 		/*
 		*	Move the carousel according to the current viewIndex.
+		*	Uses Morpheus if it exists.
 		*/
 		move = function()
 		{
@@ -316,13 +317,20 @@
 
 			var offset = -(carouselItemWidth * currentPos());
 
-			morpheus(carousel[0],
+			if(window.morpheus)
 			{
-				left: offset,
-				duration: opts.speed,
-				easing: morpheus.easings[opts.easing],
-				complete: transitionEnd
-			});
+				morpheus(carousel[0],
+				{
+					left: offset,
+					duration: opts.speed,
+					easing: morpheus.easings[opts.easing],
+					complete: transitionEnd
+				});
+			}
+			else
+			{
+				carousel.animate({left: offset}, opts.speed, opts.easing, transitionEnd);
+			}
 		},
 
 		/*
@@ -476,4 +484,4 @@
 		});
 	};
 
-}(jQuery, window.Carousel = window.Carousel || {}, window.morpheus));
+}(jQuery, window.Carousel = window.Carousel || {}));
