@@ -488,7 +488,7 @@
 (function($, Carousel)
 {
 	"use strict";
-
+	
 	/*
 	*	Carousel.Pager
 	*	@constructor

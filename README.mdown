@@ -94,7 +94,7 @@ If you don't want to use event based communication you can also use the public f
 * `destroy` Removes all bindings and stops the Carousel if autorun was set.
 
 ##Dependencies
-This Carousel makes use of [jQuery](http://www.jquery.com) and [Morpheus](https://github.com/ded/morpheus).
+This Carousel makes use of [jQuery](http://www.jquery.com) and [Morpheus](https://github.com/ded/morpheus) (Morphues is optional).
 
 ##Easing	
 The Carousel uses [easing-js](https://github.com/danro/easing-js) to to do it's fancy easings. 

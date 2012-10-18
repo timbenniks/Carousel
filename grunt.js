@@ -35,6 +35,11 @@ module.exports = function(grunt)
 				dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.min.js'
 			}
 		},
+
+		qunit:
+		{
+			files: ['test/**/*.html']
+		},
 		
 		lint:
 		{
@@ -67,5 +72,6 @@ module.exports = function(grunt)
 		uglify: {}
 	});
 	
-	grunt.registerTask('default', 'lint concat min');
+	grunt.registerTask('test', 'lint qunit');
+	grunt.registerTask('deploy', 'concat min');
 };
