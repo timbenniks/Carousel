@@ -298,6 +298,17 @@
 		},
 
 		/*
+		 * Calculates the offset the carousel has to move.
+		 * @param  {number} itemWidth The width of each individual slide.
+		 * @param  {number} index     The current view position.
+		 * @return {number}           The offset the carousel has to move.
+		 */
+		calculateOffset = function(itemWidth, index)
+		{
+			return (itemWidth * index) * -1;
+		},
+
+		/*
 		*	Move the carousel according to the current viewIndex.
 		*	Uses Morpheus if it exists.
 		*/
@@ -315,7 +326,7 @@
 				currentCarousel: carouselWrapper
 			});
 
-			var offset = -(carouselItemWidth * currentPos());
+			var offset = calculateOffset(carouselItemWidth, currentPos());
 
 			if(window.morpheus)
 			{
@@ -461,6 +472,7 @@
 			totalSlides: totalSlides,
 			currentItem: currentItem,
 			getItemByIndex: getItemByIndex,
+			calculateOffset: calculateOffset,
 			stop: stop,
 			pause: pause,
 			resume: resume,

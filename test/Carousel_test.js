@@ -3,7 +3,7 @@
 /*global notDeepEqual:false, strictEqual:false, notStrictEqual:false, raises:false*/
 (function($)
 {
-	module('Carousel',
+	module('Carousel Basics',
 	{
 		setup: function()
 		{
@@ -24,10 +24,18 @@
 			this.carouselOptions =
 			{
 				prev: this.fixture.find('.prev'),
-				next: this.fixture.find('.next')
+				next: this.fixture.find('.next'),
+				step: 20
 			};
 			
 			this.carouselInstance = new Carousel.Base(this.carouselSelector, this.carouselOptions);
+		},
+
+		teardown: function()
+		{
+			this.carouselInstance.destroy();
+			this.carouselInstance = null;
+			this.carouselOptions = {};
 		}
 	});
 
@@ -52,6 +60,66 @@
 
 		equal(opts.prev[0], this.carouselOptions.prev[0], 'The prev button the Carousel found is in fact to actual prev button.');
 		equal(opts.next[0], this.carouselOptions.next[0], 'The next button the Carousel found is in fact to actual next button.');
+	});
+
+	module('Carousel Viewstate',
+	{
+		setup: function()
+		{
+			this.fixture = $('#qunit-fixture');
+			this.carouselTmpl = '<div class="carousel-wrapper">'+
+									'<ul class="carousel">'+
+										'<li></li>'+
+										'<li></li>'+
+									'</ul>'+
+									'<button class="prev"></button>'+
+									'<button class="next"></button>'+
+								'</div>';
+
+			this.fixture.append(this.carouselTmpl);
+			
+			this.carouselSelector = this.fixture.find('.carousel');
+		},
+
+		teardown: function()
+		{
+			this.carouselInstance.destroy();
+			this.carouselInstance = null;
+			this.carouselOptions = {};
+		}
+	});
+
+	test('Initial ViewIndex', function()
+	{
+		this.carouselOptions =
+		{
+			prev: this.fixture.find('.prev'),
+			next: this.fixture.find('.next'),
+			step: 20,
+			startAt: 0
+		};
+		
+		this.carouselInstance = new Carousel.Base(this.carouselSelector, this.carouselOptions);
+	
+		equal(this.carouselInstance.currentPos(), 0, 'The initial viewState is 0');
+	});
+
+	module('Carousel Events',
+	{
+		setup: function(){},
+		teardown: function(){}
+	});
+
+	module('Carousel Loop',
+	{
+		setup: function(){},
+		teardown: function(){}
+	});
+
+	module('Carousel Autoplay',
+	{
+		setup: function(){},
+		teardown: function(){}
 	});
 
 }(jQuery));
