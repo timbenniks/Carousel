@@ -72,6 +72,6 @@ module.exports = function(grunt)
 		uglify: {}
 	});
 	
-	grunt.registerTask('test', 'lint qunit');
-	grunt.registerTask('deploy', 'concat min');
+	grunt.registerTask('default', 'lint qunit');
+	grunt.registerTask('deploy', 'lint qunit concat min');
 };

@@ -464,7 +464,8 @@
 			stop: stop,
 			pause: pause,
 			resume: resume,
-			destroy: destroy
+			destroy: destroy,
+			options: opts
 		};
 	};
 
