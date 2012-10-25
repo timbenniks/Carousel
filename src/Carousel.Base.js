@@ -298,11 +298,11 @@
 		},
 
 		/*
-		 * Calculates the offset the carousel has to move.
-		 * @param  {number} itemWidth The width of each individual slide.
-		 * @param  {number} index     The current view position.
-		 * @return {number}           The offset the carousel has to move.
-		 */
+		*	Calculates the offset the carousel has to move.
+		*	@param {number} itemWidth The width of each individual slide.
+		*   @param {number} index The current view position.
+		*   @return {number} The offset the carousel has to move.
+		*/
 		calculateOffset = function(itemWidth, index)
 		{
 			return (itemWidth * index) * -1;

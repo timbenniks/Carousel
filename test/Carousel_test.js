@@ -3,6 +3,19 @@
 /*global notDeepEqual:false, strictEqual:false, notStrictEqual:false, raises:false*/
 (function($)
 {
+	var setupCarousel = function(element, options)
+	{
+		var opts = options || {};
+		return new Carousel.Base(element, opts);
+	};
+
+	/**
+	 * Carousel Basics
+	 * Init,
+	 * Total slides,
+	 * List width,
+	 * Options.
+	 */
 	module('Carousel Basics',
 	{
 		setup: function()
@@ -12,30 +25,23 @@
 									'<ul class="carousel">'+
 										'<li></li>'+
 										'<li></li>'+
+										'<li></li>'+
+										'<li></li>'+
 									'</ul>'+
-									'<button class="prev"></button>'+
-									'<button class="next"></button>'+
 								'</div>';
 
 			this.fixture.append(this.carouselTmpl);
-			
 			this.carouselSelector = this.fixture.find('.carousel');
-			
-			this.carouselOptions =
-			{
-				prev: this.fixture.find('.prev'),
-				next: this.fixture.find('.next'),
-				step: 20
-			};
-			
+			this.carouselOptions = { step: 20 };
 			this.carouselInstance = new Carousel.Base(this.carouselSelector, this.carouselOptions);
 		},
 
 		teardown: function()
 		{
 			this.carouselInstance.destroy();
-			this.carouselInstance = null;
 			this.carouselOptions = {};
+			this.carouselInstance = null;
+			this.fixture.empty();
 		}
 	});
 
@@ -46,22 +52,24 @@
 
 	test('Total slides', function()
 	{
-		equal(this.carouselInstance.totalSlides(), 2, 'The Carousel found two slides.');
+		equal(this.carouselInstance.totalSlides(), 4, 'The Carousel found '+ this.carouselInstance.totalSlides() +' slides.');
 	});
 
 	test('List width', function()
 	{
-		equal(parseInt(this.carouselSelector.width(), 10), 40, 'The Carousel is 40px wide.');
+		equal(parseInt(this.carouselSelector.width(), 10), 80, 'The Carousel is 80px wide.');
 	});
 
-	test('Options', function()
-	{
-		var opts = this.carouselInstance.options;
-
-		equal(opts.prev[0], this.carouselOptions.prev[0], 'The prev button the Carousel found is in fact to actual prev button.');
-		equal(opts.next[0], this.carouselOptions.next[0], 'The next button the Carousel found is in fact to actual next button.');
-	});
-
+	/**
+	 * Carousel Viewstate
+	 *
+	 * initial viewstate,
+	 * using startAt,
+	 * after clicking the buttons,
+	 * by using an event,
+	 * by using the public functions,
+	 * after auto run.
+	 */
 	module('Carousel Viewstate',
 	{
 		setup: function()
@@ -71,40 +79,98 @@
 									'<ul class="carousel">'+
 										'<li></li>'+
 										'<li></li>'+
+										'<li></li>'+
+										'<li></li>'+
 									'</ul>'+
-									'<button class="prev"></button>'+
-									'<button class="next"></button>'+
 								'</div>';
 
 			this.fixture.append(this.carouselTmpl);
-			
 			this.carouselSelector = this.fixture.find('.carousel');
 		},
 
 		teardown: function()
 		{
 			this.carouselInstance.destroy();
-			this.carouselInstance = null;
 			this.carouselOptions = {};
+			this.carouselInstance = null;
+			this.fixture.empty();
 		}
 	});
 
-	test('Initial ViewIndex', function()
+	test('get viewIndex with currentPos()', function()
 	{
-		this.carouselOptions =
-		{
-			prev: this.fixture.find('.prev'),
-			next: this.fixture.find('.next'),
-			step: 20,
-			startAt: 0
-		};
+		this.carouselInstance = setupCarousel(this.carouselSelector, { startAt: 3 });
+
+		equal(this.carouselInstance.currentPos(), 3, 'currentPos() returned 3 ');
+	});
+
+	test('Initial viewIndex', function()
+	{
+		this.carouselInstance = setupCarousel(this.carouselSelector, { startAt: 0 });
 		
-		this.carouselInstance = new Carousel.Base(this.carouselSelector, this.carouselOptions);
-	
 		equal(this.carouselInstance.currentPos(), 0, 'The initial viewState is 0');
 	});
 
-	module('Carousel Events',
+	test('viewIndex with startAt', function()
+	{
+		this.carouselInstance = setupCarousel(this.carouselSelector, { startAt: 2 });
+
+		equal(this.carouselInstance.currentPos(), 2, 'The initial viewState with startAt is 2');
+	});
+
+	test('viewIndex after calling moveTo()', function()
+	{
+		this.carouselInstance = setupCarousel(this.carouselSelector);
+		this.carouselInstance.moveTo(2);
+		
+		equal(this.carouselInstance.currentPos(), 2, 'The viewIndex is 2 after calling moveTo(2)');
+	});
+
+	asyncTest('viewIndex after calling moveTo() by an event', function()
+	{
+		this.carouselInstance = setupCarousel(this.carouselSelector);
+		
+		this.carouselSelector.trigger({type: 'moveTo', index: 2});
+		
+		equal(this.carouselInstance.currentPos(), 2, 'The viewIndex is 2 after calling moveTo(2) by an event');
+		start();
+	});
+
+	test('viewIndex after calling next()', function()
+	{
+		this.carouselInstance = setupCarousel(this.carouselSelector, { startAt: 0 });
+		this.carouselInstance.next();
+
+		equal(this.carouselInstance.currentPos(), 1, 'The viewIndex is 1 after the next() function was called');
+	});
+
+	asyncTest('viewIndex after calling next() by an event', function()
+	{
+		this.carouselInstance = setupCarousel(this.carouselSelector);
+		this.carouselSelector.trigger('next');
+		
+		equal(this.carouselInstance.currentPos(), 1, 'The viewIndex is 1 after calling next() by an event');
+		start();
+	});
+
+	test('viewIndex after calling prev()', function()
+	{
+		this.carouselInstance = setupCarousel(this.carouselSelector, { startAt: 1 });
+		this.carouselInstance.prev();
+		
+		equal(this.carouselInstance.currentPos(), 0, 'The viewIndex is 0 after the prev() function was called');
+	});
+
+	asyncTest('viewIndex after calling prev() by an event', function()
+	{
+		this.carouselInstance = setupCarousel(this.carouselSelector, { startAt: 1 });
+		this.carouselSelector.trigger('prev');
+		
+		equal(this.carouselInstance.currentPos(), 0, 'The viewIndex is 0 after calling prev() by an event');
+		start();
+	});
+	
+	module('Carousel Button state',
 	{
 		setup: function(){},
 		teardown: function(){}
