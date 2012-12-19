@@ -1,4 +1,4 @@
-/*globals morpheus:true*/
+/*globals console*/
 (function ($, Carousel)
 {
 	"use strict";
@@ -11,8 +11,15 @@
 	{
 		var defaults =
 			{
-				speed: 500,
-				easing: 'easeInOutExpo',
+				speedIn: 500,
+				speedOut: 500,
+				easingIn: 'easeInOutExpo',
+				easingOut: 'easeInOutExpo',
+				cssBefore: { opacity: 0, display: 'block' },
+				cssAfter: { display: 'none' },
+				animOut: { opacity: 0 },
+				animIn: { opacity: 1 },
+				sync: true
 			},
 
 			opts = $.extend({}, defaults, options),
@@ -20,23 +27,27 @@
 			carousel = $(element),
 			carouselItems = carousel.children(),
 			carouselItemsList = carouselItems.get(),
+			amountOfSlides = carouselItemsList.length,
 
 			viewIndex = 0,
-			oldViewIndex = carouselItemsList.length,
-			
+			oldViewIndex = 0,
+
 		init = function()
 		{
+			carousel.addClass('carousel-added');
 			carouselItems.css({ position: 'absolute' }).each(function(index, el)
 			{
-				$(el).css('z-index', carouselItemsList.length - index);
+				$(el).css('z-index', amountOfSlides - index);
 			});
+
+			$(carouselItemsList[0]).addClass('active');
 		},
 
 		next = function()
 		{
 			oldViewIndex = viewIndex;
 
-			if(viewIndex < (carouselItemsList.length - 1))
+			if(viewIndex < (amountOfSlides - 1))
 			{
 				viewIndex += 1;
 			}
@@ -51,10 +62,10 @@
 		prev = function()
 		{
 			oldViewIndex = viewIndex;
-			
+
 			if(viewIndex === 0)
 			{
-				viewIndex = carouselItemsList.length - 1;
+				viewIndex = amountOfSlides - 1;
 			}
 			else
 			{
@@ -66,20 +77,57 @@
 
 		go = function()
 		{
-			$(carouselItemsList[oldViewIndex])
-				.removeClass('active')
-				.animate({opacity: 'hide'}, opts.speed, opts.easing);
-			
-			$(carouselItemsList[viewIndex])
-				.addClass('active')
-				.animate({opacity: 'show'}, opts.speed, opts.easing)	
+			var oldSlide = $(carouselItemsList[oldViewIndex]),
+				newSlide = $(carouselItemsList[viewIndex]);
+
+			anim(oldSlide, newSlide);
+		},
+
+		anim = function(oldSlide, newSlide)
+		{
+			var animIn = function()
+			{
+				newSlide.addClass('active');
+				newSlide.animate(opts.animIn, opts.speedIn, opts.easingIn);
+			};
+
+			newSlide.css(opts.cssBefore);
+
+			oldSlide.animate(opts.animOut, opts.speedOut, opts.easingOut, function()
+			{
+				oldSlide.removeClass('active');
+
+				if(!opts.sync)
+				{
+					animIn();
+				}
+
+				oldSlide.css(opts.cssAfter);
+			});
+
+			if(opts.sync)
+			{
+				animIn();
+			}
+		},
+
+		gotoSlide = function(index)
+		{
+			if(viewIndex !== index && index < amountOfSlides)
+			{
+				oldViewIndex = viewIndex;
+				viewIndex = index;
+
+				go();
+			}
 		};
 
 		init();
 
 		return {
 			next: next,
-			prev: prev
+			prev: prev,
+			gotoSlide: gotoSlide
 		};
 	};
 

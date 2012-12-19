@@ -39,14 +39,18 @@
 
         li {
             float: left;
-            display: block;
+            display: none;
             width: 800px;
             height: 600px;
         }
 
+        li.active {
+            display: block;
+        }
+
         img {
             display: block;
-        }        
+        }
     </style>
 
 </head>
@@ -57,12 +61,13 @@
 
     <button class="carousel-prev">Prev</button>
     <button class="carousel-next">Next</button>
+    <button class="goto">go to slide 3 (image 4 because of 0 based list)</button>
     <div class="carousel-wrapper">
         <ul class="carousel">
-            <li id="carousel-slide-0"><img src="http://baconmockup.com/800/600/bacon-eggs" /></li>
-            <li id="carousel-slide-1"><img src="http://baconmockup.com/800/600/random" /></li>
-            <li id="carousel-slide-2"><img src="http://baconmockup.com/800/600/brisket" /></li>
-            <li id="carousel-slide-3"><img src="http://baconmockup.com/800/600/hamburger" /></li>
+            <li id="carousel-slide-0"><img src="./static/images/1.jpg" /></li>
+            <li id="carousel-slide-1"><img src="./static/images/2.jpg" /></li>
+            <li id="carousel-slide-2"><img src="./static/images/3.jpg" /></li>
+            <li id="carousel-slide-3"><img src="./static/images/4.jpg" /></li>
         </ul>
     </div>
 </article>
@@ -75,11 +80,31 @@
 <script>
     $(function()
     {
-        var carouselInstance = new Carousel.Base($('.carousel'));
+        var slideRight = {
+            cssBefore: { left: '800px' },
+            cssAfter: { left: '0' },
+            animOut: { left: '-800px' },
+            animIn: { left: '0' },
+            sync: true
+        },
+
+        fade =
+        {
+            cssBefore: { opacity: 0, display: 'block' },
+            cssAfter: { display: 'none' },
+            animOut: { opacity: 0 },
+            animIn: { opacity: 1 },
+            sync: true
+        };
+
+        var carouselInstance = new Carousel.Base($('.carousel'), fade);
 
         $('.carousel-prev').on('click', carouselInstance.prev);
         $('.carousel-next').on('click', carouselInstance.next);
-
+        $('.goto').on('click', function()
+        {
+            carouselInstance.gotoSlide(3);
+        });
     });
 </script>
 
