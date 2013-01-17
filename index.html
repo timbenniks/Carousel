@@ -46,7 +46,7 @@
 
         img {
             display: block;
-        }        
+        }
     </style>
 
 </head>
@@ -74,7 +74,6 @@
 </article>
 
 <script src="./libs/jquery-1.8.0.min.js"></script>
-<script src="./libs/morpheus.js"></script>
 <script src="./libs/easings.js"></script>
 <script src="./src/Carousel.Base.js"></script>
 <script src="./src/Carousel.Pager.js"></script>
@@ -82,20 +81,20 @@
 <script>
     $(function()
     {
-        var carouselOpts = 
+        var carouselOpts =
         {
             prev: '.carousel-prev',
-            next: '.carousel-next', 
-            loop: false, 
+            next: '.carousel-next',
+            loop: false,
             auto: false,
-            speed: 500, 
-            timeoutSpeed: 200, 
+            speed: 500,
+            timeoutSpeed: 200,
             easing: 'easeInOutExpo'
         },
-        
+
         carouselInstance = new Carousel.Base($('.carousel'), carouselOpts),
-     
-        pagerOpts = 
+
+        pagerOpts =
         {
             carouselToMove: $('.carousel')
         },

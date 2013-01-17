@@ -42,7 +42,7 @@
 			{
 				carouselItemWidth = carousel.find('li:first').outerWidth(true);
 			}
-			
+
 			carousel
 				.css({ width: totalSlides() * carouselItemWidth })
 				.addClass('carousel-added');
@@ -53,7 +53,7 @@
 			{
 				handleAutoRun();
 			}
-			
+
 			if(opts.startAt > 0)
 			{
 				viewIndex = opts.startAt;
@@ -63,12 +63,12 @@
 			carousel.on('pause', pause);
 			carousel.on('resume', resume);
 			carousel.on('stop', stop);
-			
+
 			carousel.on('moveTo', onMoveTo);
 			carousel.on('prev', prev);
 			carousel.on('next', next);
 		},
-		
+
 		/*
 		*	Add event listeners to the prev and next buttons if they exist.
 		*/
@@ -177,7 +177,7 @@
 				moveTo(e.index);
 			}
 		},
-		
+
 		/*
 		*	Move the carousel to a specific index.
 		*	@param {object} index Slide to move to.
@@ -188,7 +188,7 @@
 			{
 				return;
 			}
-			
+
 			if(index <= (totalSlides() - 1) && index >= 0)
 			{
 				cachedIndex = viewIndex;
@@ -201,7 +201,7 @@
 				throw 'Incorrect viewIndex provided';
 			}
 		},
-		
+
 		/*
 		*	Checks if the buttons should be disabled or not according to the viewIndex.
 		*/
@@ -211,7 +211,7 @@
 			{
 				return;
 			}
-			
+
 			var hasNext, hasPrev;
 
 			hasPrev = viewIndex > 0;
@@ -328,20 +328,7 @@
 
 			var offset = calculateOffset(carouselItemWidth, currentPos());
 
-			if(window.morpheus)
-			{
-				morpheus(carousel[0],
-				{
-					left: offset,
-					duration: opts.speed,
-					easing: morpheus.easings[opts.easing],
-					complete: transitionEnd
-				});
-			}
-			else
-			{
-				carousel.animate({left: offset}, opts.speed, opts.easing, transitionEnd);
-			}
+			carousel.animate({left: offset}, opts.speed, opts.easing, transitionEnd);
 		},
 
 		/*
@@ -431,7 +418,7 @@
 		{
 			unsetAutoRunTimeout();
 		},
-		
+
 		/*
 		*	Resumes the carousel if autorun was set.
 		*/
